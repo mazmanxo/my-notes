@@ -1,0 +1,93 @@
+LINUX TUTORIAL - BASIC COMMAND LINE
+
+pwd: where I am
+ls: list
+ls -a: lists everything, including hidden files
+ls -l: extra information
+
+drwxr-xr-x 2 mazman mazman 4096 Oct 13 20:28 Desktop
+permissions of the folder file
+owner - group - everyone else
+delete, read, write, execute
+mazman mazman: user group
+
+ mkdir test01: create directory
+ 
+ cd: change directories
+ cd test02
+ cd ..: go back
+ cd /: go to root
+~: home
+cd ~: go home
+cd ~/test01: go to test01
+
+clear: clear the terminal
+
+touch file1.text: create a file
+
+"nano" is a command line based text editor
+nano file1.txt: open file in nano
+ctrl+x to quit
+cat file1xtx: shows what's in it
+less file1.txt same but can use page down (for large files) press q to quit
+
+mv: rename file
+mv file1.txt file2.txt
+
+cp file2.txt file1.txt: take file2.txt and copy it into file1.txt
+
+cp file1.txt ~/test02/file1.text: copy a file to a different directory
+
+rm file1.txt: delete a file
+rmdir test02: deletes a directory (has to be empty)
+rm -R test02: deletes with files inside
+
+which opera: searches for file/folder location and shows it
+
+history: your last commands
+
+sudo: run as root
+
+
+SYSTEM COMMANDS
+
+ifconfig: network information
+iwconfig: wireless
+ping google.com (ctrl+c to stop)
+uname -a
+blkid: hard drive and partitions
+top: processes, memory, cpu (task manager like, q to quit)
+df: disk space
+
+sudo apt-get install filezilla: install
+sudo apt-get remove filezilla: remove
+sudo apt-get update: checks for updates for everything
+
+sudo shutdown -h now: shuts down (-r restarts) (10 instead of now for minutes, timer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

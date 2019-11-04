@@ -1,0 +1,178 @@
+SHH CRASH COURSE (https://youtu.be/hQWRp-FdTpc)
+
+Secure Shell
+communication protocol (like http, https, ftp)
+do anything through terminal on remote computer
+traffic is encrypted
+
+SSH is the client
+SSHD is the server = open SSH Daemon
+
+authentication
+-password >ssh brad@192.168.1.29
+-public/private key pair
+-host based, not doing that atm
+
+generating keys
+>ssh-keygen
+private key in your home folder ~/.shh/id_rsa
+public key in your home foder too, but need to put on your server rsa.pub
+
+installing a web server (apache) with ssh
+
+generating ssh keys for the local server
+initially used a password to log in
+gist commands to transfer the desktop public key to the server
+now can log in without a password
+
+copy file from local machine to the server
+touch test.txt
+scp ~/test.txt brad@192.168.1.29:~1
+secure file copy, move from home directory, file name, move it to server brad, put it to home folder
+
+----------------------------------
+
+set up digital ocean droplet
+
+generate keys on desktop
+add the public key to digital ocean
+
+shh into it with
+shh root @IP-OF-DROPLET
+
+he had to add the key manually on desktop for some reason
+
+ when logged in
+ sudo apt update
+ sudo apt upgrade
+
+ create a new user, you should never use root user
+ give it sudo privileges so they can run as root
+ also disable root login
+
+ adduser mazman
+ id mazman
+ usermod -aG sudo mazman
+ id mazman
+
+ exit
+
+ ssh mazman@IP
+ permission denied (publickey)
+ we only added publickey for root
+ every user needs public key in their ssh folder
+
+ adding a ssh key as root
+ login as root
+ cd /home/mazman
+ mkdir .ssh
+ cd .ssh
+ touch authorized_keys
+ (copy the public key from desktop cat .ssh/id_rsa_do.pub)
+ sudo nano authorized_keys
+ cat authorized_keys
+
+ disable root password login
+ sudo nano /etc/ssh/sshd_config
+ (pw: hello)
+ PermitRootLogin no
+ PasswordAuthentication no
+ save
+ sudo systemctl reload sshd
+
+ install apache
+ sudo apt install apache2 -y
+ 
+GITHUB INTEGRATION
+
+https://github.com/bradtraversy/react_otka_auth
+
+git clone git@github.com:bradtraversy/react_otka_auth.git
+permission denied (publickey)
+ssh-keygen -t rsa
+/home/mazman/.ssh/id_rsa_github
+failed: permission denied (.ssh folder is undred root user in root group?)
+ls -la
+can see that .ssh folder has root root
+need to change to mazman mazman
+sudo chown -R mazman:mazman /home/mazman (change everything in mazman to be owned by mazman, R is for recursive)
+ls -la
+ssh keygen -t rsa
+/home/mazman/.ssh/id_rsa_github
+it works!
+
+cat .ssh/id_rsa_github.pub
+paste to github
+settings, SSH and GPG keys
+git clone git@github.com:bradtraversy/react_otka_auth.git
+"Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists."
+
+ssh-add /home/mazman/.ssh/id_rsa_github (the thing he had to do before and I didn't, adding the key manually)
+"Could not open a connection to your authentication agent."
+
+eval `ssh-agent -s` (alt gr+7)
+identity added!
+
+git clone git@github.com:bradtraversy/react_otka_auth.git
+IT WORKS
+ls
+47:00 that's enough (goes up to 55 minutes)
+
+
+
+*************************************
+attempted to replace the default index.html file in Droplet1 with a different index.html file
+was able to delete it
+then
+scp ~/Desktop/Droplet1/index.html mazman@104.248.24.80:/var/www/html
+gives me "Permission denied"
+trying to create index.html with touch returns the same
+probably because I'm in root and I'm not root?
+trying sudo brings up publickey problems again?
+sudo touch works!
+... but I can't edit it in nano
+I think the solution is to do these things in the user folder and not in root
+nvm, sudo nano index.html works
+just remember to type sudo and everything is fine
+still idk why it gives me the publickey thing with scp
+I thought I sorted it this morning?
+Also how to make a more complex static website with digitalocean and Apache?
+tried again, I can connect and do stuff, but scp still asks for publickey
+do I need the publickey of the droplet on my desktop? aa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
